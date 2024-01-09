@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ask from AoY</title>
+  <link href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet" type="text/css"/>
+  <link rel="icon" type="image/x-icon" href="/data/favicon.ico">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+
+	<div id="top-container">
+	<h1><p style="color:#980000">Ask from Autobiograhpy of a Yogi</p></h1><br>
+	<p style="color:#980000" size="+1"> Ask any question and get an authentic response from <a href="https://www.gutenberg.org/ebooks/7452" style="text-decoration: none; color: #00008B; font-weight: bold;" target=_blank>Autobiography of a Yogi</a><br></p>
+	</div>
+
+  <div id="chat-container">
+    <div id="chat-display"></div>
+  	<div id="user-input-container">
+          	<input type="text" id="user-input" placeholder="Type your question">
+          	<button onclick="sendMessage()">Ask</button>
+  	</div>
+
+	  <div id="response-message" style="display: none;">Generating response...</div>
+  </div>
+  <br><br>
+  <div id="top-container">
+    <p style="color:#980000" size="+1">
+		  After you are done, please don't forget to save this conversation as a PDF for later reference. 
+		  <br>To do this, open the File menu in your browser, click on Print, and then Save as PDF.
+    </p>
+  </div>
+
+  <script>
+	  function submitForm(question) {
+		// Set pre-decided data
+		document.getElementById("user-input").value = question;
+    }
+
+
+    function sendMessage() {
+
+		$("#question-images").hide();
+
+    var question = $("#user-input").val();
+
+		$("#chat-display").append('<p><strong>Question:</strong><br><br>' + question + '</p>');
+
+		// Hide input bar and show "generating response" message during the request
+    $("#user-input-container").hide();
+    $("#response-message").show();
+
+    $.ajax({
+              type: 'POST',
+              url:'/answer',
+              contentType: 'application/json',
+              data: JSON.stringify({ question: question }),
+              success: function(response) {
+                var botResponse = response.answer;
+			          $("#chat-display").append('<p><strong>Answer:</strong><br><br>' + botResponse + '</p>');
+
+                // Show the input bar after the response is displayed
+                $("#user-input-container").show();
+                $("#response-message").hide();
+                },
+                error: function() {
+                    console.log('Error fetching response');
+                    $("#user-input-container").show();
+                    $("#response-message").hide();
+                }
+            });
+
+            // Optionally, you can hide the input bar during the request
+            $("#user-input").val("");
+	}
+    </script>
+  </body>
+</html>
