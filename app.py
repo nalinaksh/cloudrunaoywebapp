@@ -15,23 +15,39 @@
 import signal
 import sys
 from types import FrameType
-
-from flask import Flask
-
+from flask import Flask, render_template, request, jsonify
 from utils.logging import logger
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-
-@app.route("/")
-def hello() -> str:
+@app.route('/')
+def index():
     # Use basic logging with custom fields
     logger.info(logField="custom-entry", arbitraryField="custom-entry")
 
     # https://cloud.google.com/run/docs/logging#correlate-logs
     logger.info("Child logger with trace Id.")
 
-    return "Hello, World!"
+    return render_template('index.html')
+
+@app.route('/answer', methods=['POST'])
+def get_answer():
+    # Log the received data
+    logger.info("Received data: %s", request.get_json())
+
+    # Get the question from the AJAX request
+    question = request.get_json().get('question', '')
+    #answer = get_relevant_doc(question)
+
+    # Hardcoded example answer
+    answer = "This is the answer to your question: {}".format(question)
+
+    # Return the answer as JSON
+    response = jsonify({'answer': answer})
+    logger.info("Sending response: %s", response.get_json())
+    return response
 
 
 def shutdown_handler(signal_int: int, frame: FrameType) -> None:
