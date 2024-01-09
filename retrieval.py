@@ -11,7 +11,7 @@ langchain.verbose = False
 
 ###START To use the saved embeddings on a CPU
 #Extract saved embeddings here
-cmdline = ['/bin/tar','xvzf','./data/HuggingFaceEmbeddings.tar.gz']
+cmdline = ['/bin/tar','xvzf','./HuggingFaceEmbeddings.tar.gz']
 subprocess.call(cmdline)
 time.sleep(2)
 
