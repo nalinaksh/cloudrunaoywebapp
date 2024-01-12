@@ -1,5 +1,6 @@
 import requests
 import re
+import csv
 
 def fetch_text_from_url(url):
     try:
@@ -46,10 +47,18 @@ def create_chunks_from_url(url, max_chunk_size=750):
     else:
         return None
 
+def save_chunks_to_csv(chunks, csv_filename="output_chunks.csv"):
+    with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Chunk ID", "Chunk Content"])
+        writer.writerows([(i, chunk) for i, chunk in enumerate(chunks)])
+
+# Example usage
 # Example usage
 url = "https://www.gutenberg.org/cache/epub/7452/pg7452.txt"
 result_chunks = create_chunks_from_url(url)
 
 if result_chunks is not None:
-    for i, chunk in enumerate(result_chunks[100:110], 1):
-        print(f"Chunk {i}:\n{chunk}\n")
+    # Save chunks to CSV using the corrected method
+    save_chunks_to_csv(result_chunks)
+    print("Chunks saved to CSV file.")
