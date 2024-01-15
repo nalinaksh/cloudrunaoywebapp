@@ -18,7 +18,7 @@ from types import FrameType
 from flask import Flask, render_template, request, jsonify
 from utils.logging import logger
 from flask_cors import CORS
-from retrieval import get_relevant_doc
+from document_retriever import retrieve_answers
 
 app = Flask(__name__)
 CORS(app)
@@ -40,14 +40,13 @@ def get_answer():
 
     # Get the question from the AJAX request
     question = request.get_json().get('question', '')
-    #answer = get_relevant_doc(question)
 
     # Hardcoded example answer
     #answer = "This is the answer to your question: {}".format(question)
-    answer = get_relevant_doc(question)
+    answers = retrieve_answers(question)
 
-    # Return the answer as JSON
-    response = jsonify({'answer': answer})
+    # Return the most relevant answer (answers[0]) as JSON
+    response = jsonify({'answer': answers[0]})
     logger.info("Sending response: %s", response.get_json())
     return response
 
