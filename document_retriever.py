@@ -20,7 +20,7 @@ all_embeddings = np.load('AOY_Embeddings.npy')
 # !git clone https://huggingface.co/BAAI/bge-large-en-v1.5
 
 #move the model to a CPU
-model = SentenceTransformer('bge-large-en-v1.5').cpu()
+model = SentenceTransformer('BAAI/bge-large-en-v1.5').cpu()
 
 def retrieve_answers(question):
   query_instruction = "Represent this sentence for searching relevant passages: "
