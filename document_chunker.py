@@ -1,64 +1,62 @@
-import requests
 import re
 import csv
+import requests
 
-def fetch_text_from_url(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.text
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data from {url}: {e}")
-        return None
+def read_text_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read()
 
-def create_chunks(text, max_chunk_size=750):
-    # Split the text into paragraphs based on a combination of newline characters and spaces
-    paragraphs = [p.strip() for p in re.split(r'\n\s*\n', text) if p.strip()]
+def parse_document(text):
+    chapters = re.split(r'CHAPTER: \d+', text)[1:]  # Split text into chapters
+    
+    chapter_data = []
+    for i, chapter in enumerate(chapters, start=1):
+        chapter_lines = chapter.strip().split('\n')
+        chapter_number = f"Chapter {i}"
+        chapter_heading = chapter_lines[0].strip()
+        chapter_content = '\n'.join(chapter_lines[1:]).strip()
+        
+        # Split chapter content into chunks
+        chunks = split_into_chunks(chapter_content)
+        
+        for chunk in chunks:
+            chapter_data.append({
+                "Index number": len(chapter_data),
+                "Chunk Content": chunk,
+                "Chapter": f"{chapter_number} : {chapter_heading}"
+            })
+    
+    return chapter_data
 
+def split_into_chunks(text, max_chunk_size=750):
+    paragraphs = re.split(r'\n\s*\n', text)  # Split text into paragraphs
     chunks = []
     current_chunk = ""
-
+    
     for paragraph in paragraphs:
-        # If a single paragraph exceeds the max size, include it in the current chunk without checking the limit
-        if len(paragraph) > max_chunk_size:
-            chunks.append(paragraph.strip() + "\n\n")
-            current_chunk = ""
+        if len(current_chunk) + len(paragraph) <= max_chunk_size:
+            current_chunk += paragraph + '\n'
         else:
-            # Check if adding the current paragraph to the current chunk exceeds the max size
-            if len(current_chunk) + len(paragraph) + 2 <= max_chunk_size:
-                # Add the paragraph to the current chunk
-                current_chunk += paragraph + "\n\n"
-            else:
-                # If adding the current paragraph exceeds the max size, start a new chunk with the current paragraph
-                chunks.append(current_chunk.strip())
-                current_chunk = paragraph + "\n\n"
-
-    # Add the last chunk
+            chunks.append(current_chunk.strip())
+            current_chunk = paragraph + '\n'
+    
     if current_chunk:
         chunks.append(current_chunk.strip())
-
+    
     return chunks
 
-def create_chunks_from_url(url, max_chunk_size=750):
-    text_content = fetch_text_from_url(url)
+def write_to_csv(data, output_file):
+    with open(output_file, mode='w', newline='', encoding='utf-8') as csv_file:
+        fieldnames = ["Index number", "Chunk Content", "Chapter"]
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        
+        writer.writeheader()
+        writer.writerows(data)
 
-    if text_content is not None:
-        return create_chunks(text_content, max_chunk_size)
-    else:
-        return None
+# Example usage with file input
+file_path = "AOY.txt"  # Replace with the actual file path
+text_document = read_text_file(file_path)
 
-def save_chunks_to_csv(chunks, csv_filename="output_chunks.csv"):
-    with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(["Chunk ID", "Chunk Content"])
-        writer.writerows([(i, chunk) for i, chunk in enumerate(chunks)])
-
-# Example usage
-# Example usage
-url = "https://www.gutenberg.org/cache/epub/7452/pg7452.txt"
-result_chunks = create_chunks_from_url(url)
-
-if result_chunks is not None:
-    # Save chunks to CSV using the corrected method
-    save_chunks_to_csv(result_chunks)
-    print("Chunks saved to CSV file.")
+output_data = parse_document(text_document)
+output_csv_file = "AOY.csv"
+write_to_csv(output_data, output_csv_file)
