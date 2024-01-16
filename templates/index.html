@@ -58,9 +58,8 @@
               contentType: 'application/json',
               data: JSON.stringify({ question: question }),
               success: function(response) {
-                var botResponse = response.answer;
-			          $("#chat-display").append('<p><strong>Answer:</strong><br><br>' + botResponse + '</p>');
-
+			        $("#chat-display").append('<p><strong>Answer:</strong><br><br>' + response.answer + '</p>');
+				$("#chat-display").append('<p style="font-size: 12px; color: maroon">' + "Reference: " + response.chapter + '</p>');
                 // Show the input bar after the response is displayed
                 $("#user-input-container").show();
                 $("#response-message").hide();
