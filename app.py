@@ -43,10 +43,10 @@ def get_answer():
 
     # Hardcoded example answer
     #answer = "This is the answer to your question: {}".format(question)
-    answers = retrieve_answers(question)
+    answers, chapters = retrieve_answers(question)
 
     # Return the most relevant answer (answers[0]) as JSON
-    response = jsonify({'answer': answers[0]})
+    response = jsonify({'answer': answers[0], 'chapter': chapters[0]})
     logger.info("Sending response: %s", response.get_json())
     return response
 
