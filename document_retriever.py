@@ -30,5 +30,7 @@ def retrieve_answers(question):
   for i in range(3):
     corpus_id = result[0][i]['corpus_id']
     doc = df['Chunk Content'][corpus_id]
+    chapter = df['Chapter'][corpus_id]
     docs.append(doc)
-  return docs
+    chapters.append(chapter)
+  return (docs, chapters)
