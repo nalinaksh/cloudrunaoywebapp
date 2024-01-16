@@ -27,6 +27,7 @@ def retrieve_answers(question):
   query_embedding = model.encode([query_instruction + question])
   result = util.semantic_search(query_embedding, all_embeddings, top_k=3)
   docs = []
+  chapters = []
   for i in range(3):
     corpus_id = result[0][i]['corpus_id']
     doc = df['Chunk Content'][corpus_id]
