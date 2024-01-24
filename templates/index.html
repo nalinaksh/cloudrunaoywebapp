@@ -22,6 +22,7 @@
           	<input type="text" id="user-input" placeholder="Type your question">
           	<button onclick="sendMessage()">Ask</button>
   	</div>
+	  
 
 	  <div id="response-message" style="display: none;">Generating response...</div>
   </div>
@@ -34,13 +35,17 @@
   </div>
 
   <script>
-	  function submitForm(question) {
+	var globalResponse;
+
+	function submitForm(question) {
 		// Set pre-decided data
 		document.getElementById("user-input").value = question;
-    }
+    	}
 
 
     function sendMessage() {
+		// Hide the Regenerate button when asking a new question
+	    	$("#regenerate-button").hide();
 
 		$("#question-images").hide();
 
@@ -58,8 +63,15 @@
               contentType: 'application/json',
               data: JSON.stringify({ question: question }),
               success: function(response) {
+		                // Store the response in the global variable
+          			globalResponse = response;
 			        $("#chat-display").append('<p><strong>Answer:</strong><br><br>' + response.answer + '</p>');
 				$("#chat-display").append('<p style="font-size: 12px; color: maroon">' + "Reference: " + response.chapter + '</p>');
+		      		// Show the Regenerate button below the answer
+          			$("#chat-display").append('<button id="regenerate-button" style="display: none;" onclick="regenerateAnswer()">Regenerate</button>');
+		// Show the Regenerate button
+          	$("#regenerate-button").show();
+
                 // Show the input bar after the response is displayed
                 $("#user-input-container").show();
                 $("#response-message").hide();
@@ -74,6 +86,15 @@
             // Optionally, you can hide the input bar during the request
             $("#user-input").val("");
 	}
+
+	function regenerateAnswer() {
+      		// Now you can access the response data in the global variable
+      		console.log(globalResponse);
+      		// Implement logic to regenerate an alternate answer
+      		// For demonstration purposes, let's hide the Regenerate button
+      		$("#regenerate-button").hide();
+      		// You can add logic here to display an alternate answer
+    	}
     </script>
   </body>
 </html>
