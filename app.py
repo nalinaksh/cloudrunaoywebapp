@@ -44,8 +44,9 @@ def get_answer():
     # Hardcoded example answer
     #answer = "This is the answer to your question: {}".format(question)
     answers, chapters = retrieve_answers(question)
-
-    ans = "<span>" + answers[0] + "</span>" + "<span style='font-size: 12px; color: maroon'>" + chapters[0] + "</span>"
+    str1 = "<span style='font-size: 12px; color: maroon'>" + chapters[0] + "</span>" + "<br><br>"
+    str2 = "<span>" + answers[0] + "</span>"
+    ans =  str1 + str2
     # Return the most relevant answer (answers[0]) as JSON
     # response = jsonify({'answer': answers[0], 'chapter': chapters[0]})
     response = jsonify({'answer': ans})
