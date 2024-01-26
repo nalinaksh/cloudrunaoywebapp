@@ -19,6 +19,7 @@ from flask import Flask, render_template, request, jsonify
 from utils.logging import logger
 from flask_cors import CORS
 from document_retriever import retrieve_answers
+from question_recommendation import recommend
 
 app = Flask(__name__)
 CORS(app)
@@ -44,9 +45,15 @@ def get_answer():
     # Hardcoded example answer
     #answer = "This is the answer to your question: {}".format(question)
     answers, chapters = retrieve_answers(question)
+    recs = recommend(question)
     str1 = "<span style='font-size: 12px; color: maroon'>" + chapters[0] + "</span>" + "<br><br>"
-    str2 = "<span>" + answers[0] + "</span>"
-    ans =  str1 + str2
+    str2 = "<span>" + answers[0] + "</span>" + "<br><br>"
+    str3 = "<span style='font-size: 16px; color: grey'>" + "You may also like to ask:" + "<br>" \
+    + "<i>" + recs[0] + "</i>" + "<br>" \
+    + "<i>" + recs[1] + "</i>" + "<br>" \
+    + "<i>" + recs[2] + "</i>" \
+    + "</span>"
+    ans =  str1 + str2 + str3
     # Return the most relevant answer (answers[0]) as JSON
     # response = jsonify({'answer': answers[0], 'chapter': chapters[0]})
     response = jsonify({'answer': ans})
