@@ -13,14 +13,14 @@ df = pd.read_csv(file_path)
 # print(df['Chunk Content'][100])
 
 #load saved embeddings on a CPU to make model predictions
-all_embeddings = np.load('AOY_Embeddings.npy')
+all_embeddings = np.load('AOY_Embeddings_small.npy')
 
 #to download model files (downloaded folder - bge-large-en-v1.5)
 # !git lfs install
 # !git clone https://huggingface.co/BAAI/bge-large-en-v1.5
 
 #move the model to a CPU
-model = SentenceTransformer('BAAI/bge-large-en-v1.5').cpu()
+model = SentenceTransformer('BAAI/bge-small-en-v1.5').cpu()
 
 def retrieve_answers(question):
   query_instruction = "Represent this sentence for searching relevant passages: "
