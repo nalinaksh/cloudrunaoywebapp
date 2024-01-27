@@ -1,6 +1,6 @@
 from sentence_transformers import SentenceTransformer, util
 
-embedder = SentenceTransformer('BAAI/bge-large-en-v1.5')
+embedder = SentenceTransformer('BAAI/bge-small-en-v1.5')
 
 corpus = ["What are the three kinds of suffering?",
 "What was the task given to mankind?",
