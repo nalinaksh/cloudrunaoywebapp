@@ -44,16 +44,19 @@ def get_answer():
 
     # Hardcoded example answer
     #answer = "This is the answer to your question: {}".format(question)
-    answers, chapters = retrieve_answers(question)
+    gita_res, aoy_res = retrieve_answers(question)
     recs = recommend(question)
-    str1 = "<span style='font-size: 12px; color: maroon'>" + chapters[0] + "</span>" + "<br><br>"
-    str2 = "<span>" + answers[0] + "</span>" + "<br><br>"
-    str3 = "<span style='font-size: 16px; color: grey'>" + "You may also like to ask:" + "<br>" \
+
+    str1 = "<span style='font-weight: bold'>" + gita_res['Sanskrit'] + "</span>" + "<br><br>"
+    str2 = "<span>" + gita_res['English'] + "</span>" + "<br><br>"
+    str3 = "<span style='font-size: 12px; color: maroon'>" + aoy_res['Chapter'] + "</span>" + "<br><br>"
+    str4 = "<span>" + aoy_res['Chunk Content'] + "</span>" + "<br><br>"
+    str5 = "<span style='font-size: 16px; color: grey'>" + "You may also like to ask:" + "<br>" \
     + "<i>" + recs[0] + "</i>" + "<br>" \
     + "<i>" + recs[1] + "</i>" + "<br>" \
     + "<i>" + recs[2] + "</i>" \
     + "</span>"
-    ans =  str1 + str2 + str3
+    ans =  str1 + str2 + str3 + str4 + str5
     # Return the most relevant answer (answers[0]) as JSON
     # response = jsonify({'answer': answers[0], 'chapter': chapters[0]})
     response = jsonify({'answer': ans})
