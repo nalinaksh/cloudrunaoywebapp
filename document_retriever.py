@@ -24,7 +24,7 @@ gita_embeddings = np.load('data/Gita/Bhagwad_Gita_Embeddings_small.npy')
 
 #move the model to a CPU
 model = SentenceTransformer('BAAI/bge-small-en-v1.5').cpu()
-top_k = 1
+top_k = 2
 def retrieve_answers(question):
   query_instruction = "Represent this sentence for searching relevant passages: "
   query_embedding = model.encode([query_instruction + question])
@@ -33,7 +33,7 @@ def retrieve_answers(question):
     
   #Create Gita response
   gita_res = {}
-  corpus_id = gita_result[0][i]['corpus_id']
+  corpus_id = gita_result[0][0]['corpus_id']
   gita_res['Chapter'] = df['Chapter'][corpus_id]
   gita_res['Verse'] = df['Verse'][corpus_id]
   gita_res['Speaker'] = df['Speaker'][corpus_id]
@@ -42,7 +42,7 @@ def retrieve_answers(question):
     
   #Create AOY response
   aoy_res = {}
-  corpus_id = aoy_result[0][i]['corpus_id']
+  corpus_id = aoy_result[0][0]['corpus_id']
   aoy_res['Chunk Content'] = df['Chunk Content'][corpus_id]
   aoy_res['Chapter'] = df['Chapter'][corpus_id]
   
