@@ -60,7 +60,7 @@ def get_answer():
         str3 = "<span>" + gita_res['English'] + "</span>" + "<br><br>"
         
     if aoy_res['Score'] >= 0.55:
-        str4 = "<span style='font-size: 12px; color: maroon'>" + aoy_res['Chapter'] + "</span>" + "<br><br>"
+        str4 = "<span style='font-size: 12px; color: maroon'>" + "Autobiography " + aoy_res['Chapter'] + "</span>" + "<br><br>"
         str5 = "<span>" + aoy_res['Chunk Content'] + "</span>" + "<br><br>"
 
     if gita_res['Score'] >= 0.55 or aoy_res['Score'] >= 0.55:
