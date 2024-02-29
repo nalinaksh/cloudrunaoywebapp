@@ -34,6 +34,7 @@ def retrieve_answers(question):
   #Create Gita response
   gita_res = {}
   corpus_id = gita_result[0][0]['corpus_id']
+  gita_res['Score'] = gita_result[0][0]['score']
   gita_res['Chapter'] = gita_df['Chapter'][corpus_id]
   gita_res['Verse'] = gita_df['Verse'][corpus_id]
   gita_res['Speaker'] = gita_df['Speaker'][corpus_id]
@@ -43,6 +44,7 @@ def retrieve_answers(question):
   #Create AOY response
   aoy_res = {}
   corpus_id = aoy_result[0][0]['corpus_id']
+  aoy_res['Score'] = aoy_result[0][0]['score']
   aoy_res['Chunk Content'] = aoy_df['Chunk Content'][corpus_id]
   aoy_res['Chapter'] = aoy_df['Chapter'][corpus_id]
   
