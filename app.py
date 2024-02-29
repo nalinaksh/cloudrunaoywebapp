@@ -55,7 +55,7 @@ def get_answer():
     ans = ""
     
     if gita_res['Score'] >= 0.55:
-        str1 = "<span style='font-size: 12px; color: maroon'>" + "Bhagvad Gita Chapter " + gita_res['Chapter'] + " " + "Verse " + gita_res['Verse'] + "</span>" + "<br><br>"
+        str1 = "<span style='font-size: 12px; color: maroon'>" + "Bhagvad Gita Chapter " + str(gita_res['Chapter']) + " " + "Verse " + str(gita_res['Verse']) + "</span>" + "<br><br>"
         str2 = "<span style='font-weight: bold'>" + gita_res['Sanskrit'] + "</span>" + "<br><br>"
         str3 = "<span>" + gita_res['English'] + "</span>" + "<br><br>"
         
