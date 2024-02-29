@@ -46,17 +46,34 @@ def get_answer():
     #answer = "This is the answer to your question: {}".format(question)
     gita_res, aoy_res = retrieve_answers(question)
     recs = recommend(question)
+    str1 = ""
+    str2 = ""
+    str3 = ""
+    str4 = ""
+    str5 = ""
+    str6 = ""
+    ans = ""
+    
+    if gita_res['Score'] >= 0.55:
+        str1 = "<span style='font-size: 12px; color: maroon'>" + "Bhagvad Gita Chapter " + gita_res['Chapter'] + " " + "Verse " + gita_res['Verse'] + "</span>" + "<br><br>"
+        str2 = "<span style='font-weight: bold'>" + gita_res['Sanskrit'] + "</span>" + "<br><br>"
+        str3 = "<span>" + gita_res['English'] + "</span>" + "<br><br>"
+        
+    if aoy_res['Score'] >= 0.55:
+        str4 = "<span style='font-size: 12px; color: maroon'>" + aoy_res['Chapter'] + "</span>" + "<br><br>"
+        str5 = "<span>" + aoy_res['Chunk Content'] + "</span>" + "<br><br>"
 
-    str1 = "<span style='font-weight: bold'>" + gita_res['Sanskrit'] + "</span>" + "<br><br>"
-    str2 = "<span>" + gita_res['English'] + "</span>" + "<br><br>"
-    str3 = "<span style='font-size: 12px; color: maroon'>" + aoy_res['Chapter'] + "</span>" + "<br><br>"
-    str4 = "<span>" + aoy_res['Chunk Content'] + "</span>" + "<br><br>"
-    str5 = "<span style='font-size: 16px; color: grey'>" + "You may also like to ask:" + "<br>" \
-    + "<i>" + recs[0] + "</i>" + "<br>" \
-    + "<i>" + recs[1] + "</i>" + "<br>" \
-    + "<i>" + recs[2] + "</i>" \
-    + "</span>"
-    ans =  str1 + str2 + str3 + str4 + str5
+    if gita_res['Score'] >= 0.55 or aoy_res['Score'] >= 0.55:
+        str6 = "<span style='font-size: 16px; color: grey'>" + "You may also like to ask:" + "<br>" \
+        + "<i>" + recs[0] + "</i>" + "<br>" \
+        + "<i>" + recs[1] + "</i>" + "<br>" \
+        + "<i>" + recs[2] + "</i>" \
+        + "</span>"
+
+    if gita_res['Score'] < 0.55 and aoy_res['Score'] < 0.55:
+        ans = "<span>" + "Your query did not fetch any relevant results" + "</span>" + "<br><br>"
+    else:
+        ans =  str1 + str2 + str3 + str4 + str5 + str6
     # Return the most relevant answer (answers[0]) as JSON
     # response = jsonify({'answer': answers[0], 'chapter': chapters[0]})
     response = jsonify({'answer': ans})
