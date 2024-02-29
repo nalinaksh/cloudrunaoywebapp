@@ -34,16 +34,16 @@ def retrieve_answers(question):
   #Create Gita response
   gita_res = {}
   corpus_id = gita_result[0][0]['corpus_id']
-  gita_res['Chapter'] = df['Chapter'][corpus_id]
-  gita_res['Verse'] = df['Verse'][corpus_id]
-  gita_res['Speaker'] = df['Speaker'][corpus_id]
-  gita_res['Sanskrit'] = df['Sanskrit '][corpus_id]
-  gita_res['English'] = df['Swami Sivananda'][corpus_id]
+  gita_res['Chapter'] = gita_df['Chapter'][corpus_id]
+  gita_res['Verse'] = gita_df['Verse'][corpus_id]
+  gita_res['Speaker'] = gita_df['Speaker'][corpus_id]
+  gita_res['Sanskrit'] = gita_df['Sanskrit '][corpus_id]
+  gita_res['English'] = gita_df['Swami Sivananda'][corpus_id]
     
   #Create AOY response
   aoy_res = {}
   corpus_id = aoy_result[0][0]['corpus_id']
-  aoy_res['Chunk Content'] = df['Chunk Content'][corpus_id]
-  aoy_res['Chapter'] = df['Chapter'][corpus_id]
+  aoy_res['Chunk Content'] = aoy_df['Chunk Content'][corpus_id]
+  aoy_res['Chapter'] = aoy_df['Chapter'][corpus_id]
   
   return (gita_res, aoy_res)
