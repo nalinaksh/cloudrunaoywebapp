@@ -43,7 +43,7 @@ corpus_embeddings = embedder.encode(corpus)
 
 def recommend(query):
   query_embedding = embedder.encode([query])
-  hits = util.semantic_search(query_embedding, corpus_embeddings, top_k=3)
+  hits = util.semantic_search(query_embedding, corpus_embeddings, top_k=6)
   hits = hits[0]      #Get the hits for the first query
   questions = []
   for hit in hits:
