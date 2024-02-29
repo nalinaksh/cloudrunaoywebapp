@@ -67,7 +67,10 @@ def get_answer():
         str6 = "<span style='font-size: 16px; color: grey'>" + "You may also like to ask:" + "<br>" \
         + "<i>" + recs[0] + "</i>" + "<br>" \
         + "<i>" + recs[1] + "</i>" + "<br>" \
-        + "<i>" + recs[2] + "</i>" \
+        + "<i>" + recs[2] + "</i>" + "<br>" \
+        + "<i>" + recs[3] + "</i>" + "<br>" \
+        + "<i>" + recs[4] + "</i>" + "<br>" \
+        + "<i>" + recs[5] + "</i>" \
         + "</span>"
 
     if gita_res['Score'] < 0.55 and aoy_res['Score'] < 0.55:
