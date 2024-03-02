@@ -42,8 +42,14 @@ corpus = ["What are the three kinds of suffering?",
 "How to live in harmony with Nature?",
 "What is Sat-Chit-Ananda",
 "What are the benefits of meditation?",
-"What is twofold proof of God in meditation",
+"What is twofold proof of God in meditation?",
 "Are we divine beings?",
+"What is Nirbikalpa Samadhi?",
+"How to have peace?",
+"What is Dharma?",
+"What makes us act against our best interests?",
+"Does a Soul ever be born or die?",
+"what happens after death?",
 "How practical is it to seek God?"]
 
 corpus_embeddings = embedder.encode(corpus)
