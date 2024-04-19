@@ -69,8 +69,6 @@ def get_answer():
         + "<i>" + recs[1] + "</i>" + "<br>" \
         + "<i>" + recs[2] + "</i>" + "<br>" \
         + "<i>" + recs[3] + "</i>" \
-        # + "<i>" + recs[4] + "</i>" + "<br>" \
-        # + "<i>" + recs[5] + "</i>" \
         + "</span>"
 
     if gita_res['Score'] < 0.55 and aoy_res['Score'] < 0.55:
