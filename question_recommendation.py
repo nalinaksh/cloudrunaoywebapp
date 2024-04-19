@@ -28,7 +28,6 @@ corpus = ["What are the three kinds of suffering?",
 "How to attain bliss?",
 "How to overcome suffering?",
 "Why does a soul reincarnate?",
-"Why reincarnation?",
 "How to get out of the cycle of reincarnation?",
 "How can we transcend the mind and body?",
 "How to overcome or destroy Karma?",
@@ -57,15 +56,15 @@ corpus = ["What are the three kinds of suffering?",
 "What happens after death?",
 "Tell me about Jivanmukta, Siddha and Paramukta!",
 "What is that one thing that God does not have?",
-"O God Beautiful!",
-"I am He, Blessed Spirit, I am He!",
+# "O God Beautiful!",
+# "I am He, Blessed Spirit, I am He!",
 "How practical is it to seek God?"]
 
 corpus_embeddings = embedder.encode(corpus)
 
 def recommend(query):
   query_embedding = embedder.encode([query])
-  hits = util.semantic_search(query_embedding, corpus_embeddings, top_k=6)
+  hits = util.semantic_search(query_embedding, corpus_embeddings, top_k=4)
   hits = hits[0]      #Get the hits for the first query
   questions = []
   for hit in hits:
