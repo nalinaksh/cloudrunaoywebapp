@@ -18,7 +18,7 @@ from types import FrameType
 from flask import Flask, render_template, request, jsonify
 from utils.logging import logger
 from flask_cors import CORS
-from document_retriever import retrieve_answers
+from document_retriever import retrieve_answers, consult
 from question_recommendation import recommend
 
 app = Flask(__name__)
@@ -81,6 +81,20 @@ def get_answer():
     logger.info("Sending response: %s", response.get_json())
     return response
 
+@app.route('/consultation', methods=['POST'])
+def consult():
+    # Log the received data
+    logger.info("Received data: %s", request.get_json())
+
+    # Get the question from the AJAX request
+    question = request.get_json().get('question', '')
+
+    gita_counsel = consult(question)
+    ans = "<span>" + gita_counsel + "</span>"
+    
+    response = jsonify({'answer': ans})
+    logger.info("Sending response: %s", response.get_json())
+    return response
 
 def shutdown_handler(signal_int: int, frame: FrameType) -> None:
     logger.info(f"Caught Signal {signal.strsignal(signal_int)}")
