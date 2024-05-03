@@ -8,6 +8,7 @@ google-auth==2.3.2
 
 Flask-CORS==3.0.10
 sentence-transformers #For HuggingFaceEmbeddings
+openai
 pandas
 numpy
 #chromadb==0.3.29
