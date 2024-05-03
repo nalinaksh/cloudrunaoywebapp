@@ -1,7 +1,9 @@
 from sentence_transformers import SentenceTransformer
 from sentence_transformers import util
+from openai import OpenAI
 import pandas as pd
 import numpy as np
+import os
 
 # Replace 'your_file.csv' with the path to your CSV file
 aoy_file_path = 'data/AOY/AOY.csv'
@@ -24,14 +26,20 @@ gita_embeddings = np.load('data/Gita/Bhagwad_Gita_Embeddings_small.npy')
 
 #move the model to a CPU
 model = SentenceTransformer('BAAI/bge-small-en-v1.5').cpu()
-top_k = 2
-def retrieve_answers(question):
+
+# Semantic search
+def retrieve_results(question, corpus_embeddings, top_k):
   query_instruction = "Represent this sentence for searching relevant passages: "
   query_embedding = model.encode([query_instruction + question])
-  aoy_result = util.semantic_search(query_embedding, aoy_embeddings, top_k=top_k)
-  gita_result = util.semantic_search(query_embedding, gita_embeddings, top_k=top_k)
+  result = util.semantic_search(query_embedding, corpus_embeddings, top_k=top_k)
+  return result
+
+# For authentic responses 
+def retrieve_answers(question):
+  aoy_result = retrieve_results(question, aoy_embeddings, top_k=2)
+  gita_result = retrieve_results(question, gita_embeddings, top_k=2)
     
-  #Create Gita response
+  #For authentic Gita response
   gita_res = {}
   corpus_id = gita_result[0][0]['corpus_id']
   gita_res['Score'] = gita_result[0][0]['score']
@@ -41,7 +49,7 @@ def retrieve_answers(question):
   gita_res['Sanskrit'] = gita_df['Sanskrit '][corpus_id]
   gita_res['English'] = gita_df['Swami Sivananda'][corpus_id]
     
-  #Create AOY response
+  #For authentic AOY response
   aoy_res = {}
   corpus_id = aoy_result[0][0]['corpus_id']
   aoy_res['Score'] = aoy_result[0][0]['score']
@@ -49,3 +57,45 @@ def retrieve_answers(question):
   aoy_res['Chapter'] = aoy_df['Chapter'][corpus_id]
   
   return (gita_res, aoy_res)
+
+# For Gita consultation (using Gen AI)
+openai_api_key = os.environ.get("OPENAI_API_KEY")
+client = OpenAI(api_key=openai_api_key)
+
+messages = [{"role": "system", "content": "You are a helpful assistance. \
+The context will provide you a user query followed by some passages from the Indian scripture of Bhagvad Gita, \
+which contains dialogue between Lord Krishna and devotee Arjuna. You should try to find if you can \
+generate an answer to a user query in the context of the Gita dialogue."}]
+
+def get_prompt(query, gita_context):
+  prompt = 
+  f"""
+  Query:
+  {query}
+
+  Gita context:
+  {gita_context}
+  """
+  return prompt
+
+def consult_gita(question):
+  top_k = 10
+  gita_result = retrieve_results(question, gita_embeddings, top_k=top_k)
+  #Create Gita response
+  gita_context = ""
+  for i in range(top_k):
+    corpus_id = gita_result[0][i]['corpus_id']
+    gita_context += gita_df['Swami Sivananda'][corpus_id]
+    gita_context += "\n"
+
+  prompt = get_prompt(question, gita_context)
+  messages.append({"role": "user", "content": prompt})
+
+  completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=messages,
+    max_tokens=256,
+    stream=False)
+
+  return completion.choices[0].message.content
+
