@@ -68,8 +68,7 @@ which contains dialogue between Lord Krishna and devotee Arjuna. You should try 
 generate an answer to a user query in the context of the Gita dialogue."}]
 
 def get_prompt(query, gita_context):
-  prompt = 
-  f"""
+  prompt = f"""
   Query:
   {query}
 
