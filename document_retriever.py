@@ -84,10 +84,10 @@ def fetch_counsel(question):
 
   prompt = get_prompt(question, gita_context)
   
-messages = [{"role": "system", "content": "You are a helpful assistance. \
-The context will provide you a user query followed by some passages. You need to generate an answer to the user query \
-from the user given context only. If the answer can not be deduced from the user given context, tell the user that \
-you do not know the answer. Do not try to make up or generate the answer on your own."}]
+  messages = [{"role": "system", "content": "You are a helpful assistance. \
+  The context will provide you a user query followed by some passages. You need to generate an answer to the user query \
+  from the user given context only. If the answer can not be deduced from the user given context, tell the user that \
+  you do not know the answer. Do not try to make up or generate the answer on your own."}]
   
   messages.append({"role": "user", "content": prompt})
 
