@@ -18,7 +18,7 @@ from types import FrameType
 from flask import Flask, render_template, request, jsonify
 from utils.logging import logger
 from flask_cors import CORS
-from document_retriever import retrieve_answers, consult
+from document_retriever import retrieve_answers, fetch_counsel
 from question_recommendation import recommend
 
 app = Flask(__name__)
@@ -93,14 +93,14 @@ def get_answer():
     return response
 
 @app.route('/get_consultation', methods=['GET','POST'])
-def consult():
+def get_consultation():
     # Log the received data
     logger.info("Received data: %s", request.get_json())
 
     # Get the question from the AJAX request
     question = request.get_json().get('question', '')
 
-    gita_counsel = consult(question)
+    gita_counsel = fetch_counsel(question)
     ans = "<span>" + gita_counsel + "</span>"
     
     response = jsonify({'answer': ans})
