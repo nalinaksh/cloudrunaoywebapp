@@ -77,7 +77,7 @@ def get_prompt(query, gita_context):
   """
   return prompt
 
-def consult(question):
+def fetch_counsel(question):
   top_k = 10
   gita_result = retrieve_results(question, gita_embeddings, top_k=top_k)
   #Create Gita response
