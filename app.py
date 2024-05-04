@@ -34,6 +34,17 @@ def index():
 
     return render_template('index.html')
 
+@app.route('/consult')
+def index():
+    # Use basic logging with custom fields
+    logger.info(logField="custom-entry", arbitraryField="custom-entry")
+
+    # https://cloud.google.com/run/docs/logging#correlate-logs
+    logger.info("Child logger with trace Id.")
+
+    return render_template('consult.html')
+
+
 @app.route('/answer', methods=['POST'])
 def get_answer():
     # Log the received data
@@ -81,7 +92,7 @@ def get_answer():
     logger.info("Sending response: %s", response.get_json())
     return response
 
-@app.route('/consultation', methods=['GET','POST'])
+@app.route('/get_consultation', methods=['GET','POST'])
 def consult():
     # Log the received data
     logger.info("Received data: %s", request.get_json())
