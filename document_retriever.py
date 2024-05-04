@@ -62,11 +62,6 @@ def retrieve_answers(question):
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_api_key)
 
-messages = [{"role": "system", "content": "You are a helpful assistance. \
-The context will provide you a user query followed by some passages from the Indian scripture of Bhagvad Gita, \
-which contains dialogue between Lord Krishna and devotee Arjuna. You should try to find if you can \
-generate an answer to a user query in the context of the Gita dialogue."}]
-
 def get_prompt(query, gita_context):
   prompt = f"""
   Query:
@@ -88,6 +83,13 @@ def fetch_counsel(question):
     gita_context += "\n"
 
   prompt = get_prompt(question, gita_context)
+  
+  messages = [{"role": "system", "content": "You are a helpful assistance. \
+  The context will provide you a user query followed by some passages from the Indian scripture of Bhagvad Gita, \
+  which contains dialogue between Lord Krishna and devotee Arjuna. You should try to find if you can generate an \
+  answer to a user query in the context of the Gita dialogue. If the answer is not in the given context, tell the \
+  user so. Do not try to make up the answer or consult any other source."}]
+  
   messages.append({"role": "user", "content": prompt})
 
   completion = client.chat.completions.create(
