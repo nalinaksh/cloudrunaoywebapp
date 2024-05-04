@@ -35,7 +35,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/consult')
-def index():
+def consult():
     # Use basic logging with custom fields
     logger.info(logField="custom-entry", arbitraryField="custom-entry")
 
