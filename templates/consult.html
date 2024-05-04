@@ -54,7 +54,7 @@
 
     $.ajax({
               type: 'POST',
-              url:'/consultation',
+              url:'/get_consultation',
               contentType: 'application/json',
               data: JSON.stringify({ question: question }),
               success: function(response) {
