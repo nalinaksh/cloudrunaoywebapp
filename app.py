@@ -81,7 +81,7 @@ def get_answer():
     logger.info("Sending response: %s", response.get_json())
     return response
 
-@app.route('/consultation', methods=['POST'])
+@app.route('/consultation', methods=['GET','POST'])
 def consult():
     # Log the received data
     logger.info("Received data: %s", request.get_json())
