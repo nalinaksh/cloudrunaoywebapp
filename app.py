@@ -85,7 +85,7 @@ def get_answer():
     if gita_res['Score'] < 0.55 and aoy_res['Score'] < 0.55:
         ans = "<span>" + "Your query did not fetch any relevant results" + "</span>" + "<br><br>"
     else:
-        ans =  str1 + str2 + str3 + str4 + str5 + str6
+        ans =  str1 + str2 + str3 + str4 + str5
     # Return the most relevant answer (answers[0]) as JSON
     # response = jsonify({'answer': answers[0], 'chapter': chapters[0]})
     response = jsonify({'answer': ans})
