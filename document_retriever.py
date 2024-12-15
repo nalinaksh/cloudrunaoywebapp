@@ -85,15 +85,16 @@ def fetch_counsel(question):
   prompt = get_prompt(question, gita_context)
   
   messages = [{"role": "system", "content": "You are a helpful consultant whom users can consult to find guidance to their life's problems. \
-  The context will provide you a user query followed by some passages (context). You need to generate an answer to the user query \
-  from the given context. Try your best to generate helpful answers with using the given context as reference."}]
+  The context will provide you a user query followed by some passages. You need to generate an answer to the user query from the given context. \
+  Try your best to generate helpful and concise answers by using the given context as reference. If the question does not relate to the context, tell user \
+  that you can not answer the question."}]
   
   messages.append({"role": "user", "content": prompt})
 
   completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=messages,
-    max_tokens=256,
+    max_tokens=128,
     temperature=0.5,
     stream=False)
 
