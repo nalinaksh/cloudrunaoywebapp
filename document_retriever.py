@@ -84,10 +84,9 @@ def fetch_counsel(question):
 
   prompt = get_prompt(question, gita_context)
   
-  messages = [{"role": "system", "content": "You are a helpful assistance. \
-  The context will provide you a user query followed by some passages. You need to generate an answer to the user query \
-  from the user given context only. If the answer can not be deduced from the user given context, tell the user that \
-  you do not know the answer. Do not try to make up or generate the answer on your own."}]
+  messages = [{"role": "system", "content": "You are a helpful consultant whom users can consult to find guidance to their life's problems. \
+  The context will provide you a user query followed by some passages (context). You need to generate an answer to the user query \
+  from the given context. Try your best to generate helpful answers with using the given context as reference."}]
   
   messages.append({"role": "user", "content": prompt})
 
@@ -95,6 +94,7 @@ def fetch_counsel(question):
     model="gpt-3.5-turbo",
     messages=messages,
     max_tokens=256,
+    temperature=0.5,
     stream=False)
 
   return completion.choices[0].message.content
